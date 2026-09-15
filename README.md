@@ -3,21 +3,30 @@
 ## First-time setup
 
 1. Install **Unity Hub**, then install Unity version **6000.3.22f1** through it.
-2. Install [Git LFS](https://git-lfs.com/), then run once:
+2. Make sure you have an SSH key added to your GitHub account on this machine (needed to clone/push) — see [GitHub's SSH setup guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh) if you haven't done this before.
+3. Install [Git LFS](https://git-lfs.com/), then run once:
    ```
    git lfs install
    ```
-3. Clone the repo:
+4. Clone the repo:
    ```
    git clone git@github.com:drewcarroll/wordwall.git
    ```
-4. In Unity Hub, click **Add** and select the cloned project folder. Open it.
-5. Run this once (fixes scene/prefab merge conflicts). Swap in your own Unity install path if it's different:
+5. In Unity Hub, click **Add** and select the cloned project folder. Open it.
+6. Run this once (fixes scene/prefab merge conflicts). Run it in **Git Bash** (installed alongside Git for Windows, and the default terminal on Mac/Linux) — the quoting only works correctly there, not in Command Prompt or PowerShell. Swap in your own Unity install path if it's different.
+
+   **macOS:**
    ```
    git config merge.unityyamlmerge.name "Unity smart merge"
    git config merge.unityyamlmerge.driver '"/Applications/Unity/Hub/Editor/6000.3.22f1/Unity.app/Contents/Helpers/UnityYAMLMerge" merge -p "%O" "%A" "%B" "%A"'
    ```
-   Windows path: `C:\Program Files\Unity\Hub\Editor\6000.3.22f1\Editor\Data\Tools\UnityYAMLMerge.exe`
+
+   **Windows (in Git Bash):**
+   ```
+   git config merge.unityyamlmerge.name "Unity smart merge"
+   git config merge.unityyamlmerge.driver '"/c/Program Files/Unity/Hub/Editor/6000.3.22f1/Editor/Data/Tools/UnityYAMLMerge.exe" merge -p "%O" "%A" "%B" "%A"'
+   ```
+   (Git Bash maps `C:\Program Files\...` to `/c/Program Files/...` — adjust the drive letter/path if Unity installed somewhere else.)
 
 ## Every time you work
 
