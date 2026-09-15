@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private bool wordFormed = false;
     private bool gameOver = false;
     private string message = "";
+    private string warning = "";
 
     void Awake()
     {
@@ -55,6 +56,12 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    public void LetterLost(LetterBlock block)
+    {
+        blocks.Remove(block);
+        warning = "The " + block.letter + " melted into the lava! Press R to restart.";
+    }
+
     public void Win()
     {
         if (gameOver || !wordFormed) return;
@@ -63,11 +70,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    public void Lose()
+    public void Lose(string reason)
     {
         if (gameOver) return;
         gameOver = true;
-        message = "The cat caught you! You lose!";
+        message = reason + " You lose!";
         Time.timeScale = 0f;
     }
 
@@ -92,6 +99,13 @@ public class GameManager : MonoBehaviour
             : "Push the letters together to spell " + MazeData.Word;
 
         GUI.Label(new Rect(0, 10, Screen.width, 40), hint, style);
+
+        if (warning != "")
+        {
+            style.normal.textColor = new Color(1f, 0.5f, 0.4f);
+            GUI.Label(new Rect(0, 45, Screen.width, 40), warning, style);
+            style.normal.textColor = Color.white;
+        }
 
         if (!gameOver) return;
 

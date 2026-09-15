@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Cat"))
         {
-            GameManager.Instance.Lose();
+            GameManager.Instance.Lose("The cat caught you!");
         }
     }
 
@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Exit"))
         {
             GameManager.Instance.Win();
+        }
+        else if (collision.gameObject.CompareTag("Lava"))
+        {
+            GameManager.Instance.Lose("You touched the lava!");
         }
     }
 }

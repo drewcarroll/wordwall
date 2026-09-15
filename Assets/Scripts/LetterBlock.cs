@@ -9,6 +9,7 @@ public class LetterBlock : MonoBehaviour
 
     private Vector2 targetPos;
     private bool isMoving = false;
+    private bool melted = false;
 
     public void SetStartCell(int col, int row)
     {
@@ -23,16 +24,35 @@ public class LetterBlock : MonoBehaviour
 
         transform.position = Vector2.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
 
-        if ((Vector2)transform.position == targetPos)
+        if ((Vector2)transform.position != targetPos) return;
+
+        isMoving = false;
+
+        if (MazeData.Instance.IsEdgeCell(Cell.x, Cell.y))
         {
-            isMoving = false;
+            Melt();
+        }
+        else
+        {
             GameManager.Instance.CheckWord();
         }
     }
 
+    void Melt()
+    {
+        melted = true;
+        gameObject.tag = "Lava";
+        GetComponent<SpriteRenderer>().sprite = MazeBuilder.MakeSquareSprite(MazeBuilder.LavaColor);
+
+        Transform label = transform.Find("Label");
+        if (label != null) Destroy(label.gameObject);
+
+        GameManager.Instance.LetterLost(this);
+    }
+
     void OnCollisionStay2D(Collision2D collision)
     {
-        if (isMoving) return;
+        if (melted || isMoving) return;
         if (!collision.gameObject.CompareTag("Player")) return;
 
         Vector2 diff = (Vector2)transform.position - (Vector2)collision.transform.position;

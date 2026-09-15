@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MazeBuilder : MonoBehaviour
 {
+    public static readonly Color LavaColor = new Color(0.38f, 0.07f, 0.06f);
+
     void Awake()
     {
         MazeData maze = gameObject.AddComponent<MazeData>();
@@ -19,7 +21,7 @@ public class MazeBuilder : MonoBehaviour
 
                 if (c == '#')
                 {
-                    SpawnWall(pos);
+                    SpawnWall(pos, maze.IsBorderWall(col, row));
                 }
                 else if (c == 'M')
                 {
@@ -45,12 +47,15 @@ public class MazeBuilder : MonoBehaviour
         FitCamera(maze);
     }
 
-    void SpawnWall(Vector2 pos)
+    void SpawnWall(Vector2 pos, bool isLava)
     {
-        GameObject go = new GameObject("Wall");
+        GameObject go = new GameObject(isLava ? "Lava" : "Wall");
         go.transform.position = pos;
-        go.AddComponent<SpriteRenderer>().sprite = MakeSquareSprite(new Color(0.3f, 0.3f, 0.3f));
+        go.AddComponent<SpriteRenderer>().sprite =
+            MakeSquareSprite(isLava ? LavaColor : new Color(0.3f, 0.3f, 0.3f));
         go.AddComponent<BoxCollider2D>();
+
+        if (isLava) go.tag = "Lava";
     }
 
     Transform SpawnPlayer(Vector2 pos)
@@ -131,7 +136,7 @@ public class MazeBuilder : MonoBehaviour
         return block;
     }
 
-    Sprite MakeSquareSprite(Color color)
+    public static Sprite MakeSquareSprite(Color color)
     {
         Texture2D tex = new Texture2D(1, 1);
         tex.SetPixel(0, 0, color);
