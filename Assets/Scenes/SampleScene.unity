@@ -369,6 +369,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60ed3ba292ce45bb93bb35bb4e5d8c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MazeBuilder
+  playerPrefab: {fileID: 7154591729524652716, guid: ba57ec330a35940158719aac0d246ed2, type: 3}
+  catPrefab: {fileID: 2039864392145517414, guid: 44f7c13534bbf4b69950e23429abf05d, type: 3}
+  letterBlockPrefab: {fileID: 6124917016505667095, guid: 79fde4d878acb4ece849c6e8a48d5553, type: 3}
+  exitPrefab: {fileID: 2540573855247232999, guid: 895dda954b6934038915ba94a228c585, type: 3}
 --- !u!4 &2137496738
 Transform:
   m_ObjectHideFlags: 0
